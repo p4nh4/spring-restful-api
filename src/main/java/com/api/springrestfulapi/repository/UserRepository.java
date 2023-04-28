@@ -31,10 +31,10 @@ public interface UserRepository {
 
 
     @Results({
-
+            @Result(column = "id" ,property = "id"),
             @Result(column = "id",property = "accounts", many = @Many(select = "findAccountByID"))
     })
-    @Select("select * from user_accounts")
+    @Select("select * from users")
     List<UserAccount> getAllUserAccounts();
 
     @Results({
