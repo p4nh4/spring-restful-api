@@ -2,6 +2,7 @@ package com.api.springrestfulapi.service;
 
 import com.api.springrestfulapi.model.User;
 import com.api.springrestfulapi.model.UserAccount;
+import com.api.springrestfulapi.model.request.UserRequest;
 
 import java.util.List;
 
@@ -10,8 +11,8 @@ public interface UserService {
     List<User> findUserByName(String name);
 
     User findUserByID (int id);
-    int createNewUser (User user);
-    int updateUser (User user);
+    int createNewUser (UserRequest user);
+    int updateUser (UserRequest user, int id);
     int removeUser(int id);
     List<UserAccount> getAllUserAccounts();
 

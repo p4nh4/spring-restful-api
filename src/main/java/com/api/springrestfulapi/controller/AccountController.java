@@ -14,23 +14,30 @@ import java.util.List;
 @RestController
 @RequestMapping("/account")
 public class AccountController {
-    //inject service
-    private final AccountService accountService;
-    private final AutoAccountMapper autoAccountMapper;
-    public AccountController(AccountService accountService, AutoAccountMapper autoAccountMapper) {
+    // inject account service
+    final private AccountService accountService;
+    final private AutoAccountMapper autoAccountMapper;
+
+    AccountController(AccountService accountService, AutoAccountMapper autoAccountMapper) {
         this.accountService = accountService;
         this.autoAccountMapper = autoAccountMapper;
     }
-    @GetMapping("/allaccounts")
-    public Response<List<AccountResponse>> getAllAccounts(){
+
+    @GetMapping("/all-accounts")
+    public Response<List<AccountResponse>> getAllAccounts() {
         try {
-            List<Account> allAccounts = accountService.getAllAccount();
-            List<AccountResponse> accountResponses = autoAccountMapper.mapToAccountResponse(allAccounts);
-            return Response.<List<AccountResponse>>ok().setPayload(accountResponses).setMessage("retrieved...!");
-        } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println(e);
-            return Response.<List<AccountResponse>>exception().setMessage("failed LOL...!");
+            List<Account> allAccount = accountService.getAllAccount();
+            List<AccountResponse> accountResponses = autoAccountMapper.mapToAccountResponse(allAccount);
+            return Response.<List<AccountResponse>>ok()
+                    .setPayload(accountResponses)
+                    .setMessage("successfully retrieved all account information ");
+
+        } catch (Exception ex) {
+            System.out.println("Something wrong : " + ex.getMessage());
+            return Response.<List<AccountResponse>>exception().setMessage("Exception occurs! Failed to retrieved account information");
         }
+
     }
+
+
 }

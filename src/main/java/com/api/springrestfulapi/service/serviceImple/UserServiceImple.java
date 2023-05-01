@@ -2,6 +2,7 @@ package com.api.springrestfulapi.service.serviceImple;
 
 import com.api.springrestfulapi.model.User;
 import com.api.springrestfulapi.model.UserAccount;
+import com.api.springrestfulapi.model.request.UserRequest;
 import com.api.springrestfulapi.repository.UserRepository;
 import com.api.springrestfulapi.service.UserService;
 import org.springframework.stereotype.Service;
@@ -30,25 +31,26 @@ public class UserServiceImple implements UserService {
 
     @Override
     public User findUserByID(int id) {
-        return null;
+
+        return userRepository.findUserById(id);
     }
 
     @Override
-    public int createNewUser(User user) {
+    public int createNewUser(UserRequest user) {
 
         return userRepository.createNewUser(user);
     }
 
     @Override
-    public int updateUser(User user) {
+    public int updateUser(UserRequest user, int id) {
 
-//        return userRepository.updateUser(user);
-        return 0;
+        return userRepository.updateUser(user,id);
+
     }
 
     @Override
     public int removeUser(int id) {
-        return 0;
+        return userRepository.removeUser(id);
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AccountRepository {
-    @Result(column = "account_type",property ="account_type",one = @One(select = "getAccountTypeById"))
+//    @Result(column = "account_type",property ="accountType",one = @One(select = "getAccountTypeById"))
     @Select("select *from accounts")
     List<Account> getAllAccount();
 //    @Result(column = "name",property = "accountName")
