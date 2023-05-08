@@ -1,5 +1,6 @@
 package com.api.springrestfulapi.util;
 
+import com.api.springrestfulapi.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

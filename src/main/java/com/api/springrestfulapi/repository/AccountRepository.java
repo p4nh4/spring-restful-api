@@ -14,12 +14,12 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AccountRepository {
-//    @Result(column = "account_type",property ="accountType",one = @One(select = "getAccountTypeById"))
+    @Result(column = "account_type",property ="accountType",one = @One(select = "getAccountTypeByID"))
     @Select("select *from accounts")
     List<Account> getAllAccount();
 //    @Result(column = "name",property = "accountName")
     @Select("SELECT * FROM account_types WHERE id=#{accountType}")
-    AccountType getAccountTypeByID(int account_type);
+    AccountType getAccountTypeByID(int accountType);
 
 
     int createAccount(Account account);

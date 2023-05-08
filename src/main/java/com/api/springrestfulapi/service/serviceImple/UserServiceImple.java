@@ -5,6 +5,8 @@ import com.api.springrestfulapi.model.UserAccount;
 import com.api.springrestfulapi.model.request.UserRequest;
 import com.api.springrestfulapi.repository.UserRepository;
 import com.api.springrestfulapi.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,15 +20,21 @@ public class UserServiceImple implements UserService {
     {
         this.userRepository = userRepository;
     }
+//    @Override
+//    public List<User> allUsers()
+//    {
+//        return userRepository.allUsers();
+//    }
+
     @Override
-    public List<User> allUsers()
-    {
-        return userRepository.allUsers();
+    public PageInfo<User> allUsers(int page, int size, String filterName) {
+        PageHelper.startPage(page, size);
+        return new PageInfo<>(userRepository.allUsers(filterName));
     }
 
     @Override
-    public List<User> findUserByName(String name) {
-        return null;
+    public int updateById(UserRequest userRequest, int id) {
+        return userRepository.updateById(userRequest,id);
     }
 
     @Override
@@ -47,6 +55,7 @@ public class UserServiceImple implements UserService {
         return userRepository.updateUser(user,id);
 
     }
+
 
     @Override
     public int removeUser(int id) {

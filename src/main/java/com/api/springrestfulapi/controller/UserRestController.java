@@ -5,6 +5,7 @@ import com.api.springrestfulapi.model.UserAccount;
 import com.api.springrestfulapi.model.request.UserRequest;
 import com.api.springrestfulapi.service.UserService;
 import com.api.springrestfulapi.util.Response;
+import com.github.pagehelper.PageInfo;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +20,36 @@ public class UserRestController {
         this.userService = userService;
     }
     @GetMapping("/alluser")
-    public Response<List<User>> getAllUser()
-    {
+        public Response<PageInfo<User>> getAllUser(@RequestParam (defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "", required = false) String  username) {
         try {
-            List<User> response = userService.allUsers();
-            return Response.<List<User>>ok().setPayload(response).setMessage("successfully retrieved!");
+            PageInfo<User> response = userService.allUsers(page, size, username);
+            return Response.<PageInfo<User>>ok().setPayload(response).setMessage("Successfully retrieved all users ! ");
 
-        }catch (Exception e)
-        {
-            return Response.<List<User>>exception().setMessage("retrieved failed LMAO");
+
+        } catch (Exception e) {
+//                return Response.<List<User>>exception().setMessage("retrieved failed LMAO");
+            System.out.println("Exception : " + e.getMessage());
+            return Response.<PageInfo<User>>exception().setMessage("Failed to retrieved the users ! Exception occurred ! ");
         }
     }
+//    @PutMapping("/{id}")
+//    User updateByID(@RequestBody UserRequest request,@PathVariable("id") int id){
+//        try {
+//            int result= userService.updateUser(request,id);
+//            if(result>0) {
+//                User response = new User().setId(id).setName(request.getName()).setGender(request.getGender()).setAddress(request.getAddress());
+//                return Response.<PageInfo<User>>updateSuccess().setPayload(response).setMessage("update successfully ! ").getPayload();
+////                return Response.<User>updateSuccess().setPayload(response).setMessage("update successfully.");
+//            }else {
+//                return Response.<PageInfo<User>>ok().setMessage("user with "+id+" not found").setSuccess(false).getPayload();
+//            }
+//        }catch (Exception e){
+//            System.out.println("error:"+e);
+//            return Response.<PageInfo<User>>exception().setMessage("Update Fail.").setSuccess(false).getPayload();
+//        }
+//    }
+
+
     @GetMapping("/{id}")
     public Response<User> findUserByID(@PathVariable int id)
     {
@@ -100,19 +120,19 @@ public class UserRestController {
     }
 
     @DeleteMapping("/{id}")
-    public Response<?> removeUser(@PathVariable int id){
+    public Response<?> deleteUser(@PathVariable int id) {
         try {
-            int result= userService.removeUser(id);
-            if(result>0) {
-                return Response.<Object>deleteSuccess().setMessage("One Row Is Delete.");
-            }else {
-                return Response.<Object>notFound().setMessage("user with"+id+" not found");
+            int affectedRow = userService.removeUser(id);
+            if (affectedRow > 0) {
+                // delete success
+                return Response.<Object>deleteSuccess().setMessage("Successfully remove the user ! ").setSuccess(true);
+            } else {
+                // id do not exist !
+                return Response.<Object>notFound().setMessage("User with id =" + id + " doesn't exist in our system !");
             }
-        }catch (Exception e){
-            return Response.<User>exception().setMessage("Remove Fail.").setSuccess(false);
+
+        } catch (Exception ex) {
+            return Response.<Object>exception().setMessage("Exception occurred! Failed to delete the user !").setSuccess(false);
         }
-
     }
-
-
 }

@@ -20,5 +20,5 @@ public class AccountResponse {
     private String phone_number;
     private int transfer_limit;
 //    private int account_type;
-//    private AccountType account_type;
+    private AccountType accountType;
 }

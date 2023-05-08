@@ -17,5 +17,5 @@ public class Account {
     private String password;
     private String phone_number;
     private int transfer_limit;
-//    private AccountType accountType;
+    private AccountType accountType;
 }

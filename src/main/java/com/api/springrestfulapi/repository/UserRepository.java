@@ -4,6 +4,7 @@ import com.api.springrestfulapi.model.Account;
 import com.api.springrestfulapi.model.User;
 import com.api.springrestfulapi.model.UserAccount;
 import com.api.springrestfulapi.model.request.UserRequest;
+import com.api.springrestfulapi.provider.UserProvider;
 import com.api.springrestfulapi.util.Response;
 import org.apache.ibatis.annotations.*;
 import org.mapstruct.control.MappingControl;
@@ -16,12 +17,22 @@ import java.util.List;
 public interface UserRepository {
 
 
-    @Select("select * from users")
-    List<User> allUsers();
-    List<User> findUserByUsername(String username);
+//    @Select("select * from users")
+//    List<User> allUsers();
+    @SelectProvider(type = UserProvider.class, method = "getAllUsers")
+    List<User> allUsers(String filterName);
+    @UpdateProvider(type = UserProvider.class, method = "updateById")
+    int updateById(UserRequest userRequest, int id);
+
+
+
+
+
+
     @Select("insert into users (name, gender, address)\n" +
             "values (#{user.name}, #{user.gender}, #{user.address}) returning id")
     int createNewUser(@Param("user") UserRequest user);
+
     @Update("UPDATE users SET name=#{user.name},gender=#{user.gender},address=#{user.address} WHERE id=#{id}")
     int updateUser(@Param("user") UserRequest user,@Param("id") int id);
 
@@ -32,13 +43,13 @@ public interface UserRepository {
     @Delete("DELETE FROM users WHERE id=#{id}")
     int removeUser(@Param("id") int id);
 
-
     @Results({
             @Result(column = "id" ,property = "id"),
             @Result(column = "id",property = "accounts", many = @Many(select = "findAccountByID"))
     })
     @Select("select * from users")
     List<UserAccount> getAllUserAccounts();
+
 
     @Results({
             @Result(property = "accountType", column = "account_type", one = @One(select = "com.api.springrestfulapi.repository.AccountRepository.getAccountTypeByID"))
