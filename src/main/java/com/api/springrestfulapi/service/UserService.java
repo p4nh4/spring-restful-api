@@ -10,12 +10,9 @@ import java.util.List;
 public interface UserService {
 //    List<User> allUsers();
     PageInfo<User> allUsers( int page, int size, String filterName);
-    int updateById (UserRequest userRequest, int id);
     User findUserByID (int id);
     int createNewUser (UserRequest user);
     int updateUser (UserRequest user, int id);
     int removeUser(int id);
-
     List<UserAccount> getAllUserAccounts();
-
 }

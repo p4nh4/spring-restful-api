@@ -33,11 +33,6 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
-    public int updateById(UserRequest userRequest, int id) {
-        return userRepository.updateById(userRequest,id);
-    }
-
-    @Override
     public User findUserByID(int id) {
 
         return userRepository.findUserById(id);
@@ -55,8 +50,6 @@ public class UserServiceImple implements UserService {
         return userRepository.updateUser(user,id);
 
     }
-
-
     @Override
     public int removeUser(int id) {
         return userRepository.removeUser(id);

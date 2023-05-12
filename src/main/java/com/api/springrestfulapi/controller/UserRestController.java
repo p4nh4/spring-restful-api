@@ -24,32 +24,11 @@ public class UserRestController {
         try {
             PageInfo<User> response = userService.allUsers(page, size, username);
             return Response.<PageInfo<User>>ok().setPayload(response).setMessage("Successfully retrieved all users ! ");
-
-
         } catch (Exception e) {
-//                return Response.<List<User>>exception().setMessage("retrieved failed LMAO");
             System.out.println("Exception : " + e.getMessage());
             return Response.<PageInfo<User>>exception().setMessage("Failed to retrieved the users ! Exception occurred ! ");
         }
     }
-//    @PutMapping("/{id}")
-//    User updateByID(@RequestBody UserRequest request,@PathVariable("id") int id){
-//        try {
-//            int result= userService.updateUser(request,id);
-//            if(result>0) {
-//                User response = new User().setId(id).setName(request.getName()).setGender(request.getGender()).setAddress(request.getAddress());
-//                return Response.<PageInfo<User>>updateSuccess().setPayload(response).setMessage("update successfully ! ").getPayload();
-////                return Response.<User>updateSuccess().setPayload(response).setMessage("update successfully.");
-//            }else {
-//                return Response.<PageInfo<User>>ok().setMessage("user with "+id+" not found").setSuccess(false).getPayload();
-//            }
-//        }catch (Exception e){
-//            System.out.println("error:"+e);
-//            return Response.<PageInfo<User>>exception().setMessage("Update Fail.").setSuccess(false).getPayload();
-//        }
-//    }
-
-
     @GetMapping("/{id}")
     public Response<User> findUserByID(@PathVariable int id)
     {

@@ -15,27 +15,16 @@ import java.util.List;
 @Repository
 @Mapper
 public interface UserRepository {
-
-
 //    @Select("select * from users")
 //    List<User> allUsers();
     @SelectProvider(type = UserProvider.class, method = "getAllUsers")
     List<User> allUsers(String filterName);
-    @UpdateProvider(type = UserProvider.class, method = "updateById")
-    int updateById(UserRequest userRequest, int id);
-
-
-
-
-
-
     @Select("insert into users (name, gender, address)\n" +
             "values (#{user.name}, #{user.gender}, #{user.address}) returning id")
     int createNewUser(@Param("user") UserRequest user);
 
     @Update("UPDATE users SET name=#{user.name},gender=#{user.gender},address=#{user.address} WHERE id=#{id}")
     int updateUser(@Param("user") UserRequest user,@Param("id") int id);
-
 
     @Select("SELECT * FROM users WHERE id=#{id}")
     User findUserById(int id);
